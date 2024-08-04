@@ -8,6 +8,7 @@ import com.vegadelalyra.angular.spring.cafe.system.dao.ProductDao;
 import com.vegadelalyra.angular.spring.cafe.system.service.ProductService;
 import com.vegadelalyra.angular.spring.cafe.system.utils.CafeUtils;
 import com.vegadelalyra.angular.spring.cafe.system.wrapper.ProductWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -139,8 +141,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product getProductFromMap(Map<String, String> requestMap, boolean isAdd) {
+        String priceValue = requestMap.get("price");
+        String categoryValue = requestMap.get("category");
+
         Category category = new Category();
-        category.setId(Integer.parseInt(requestMap.get("categoryId")));
+        category.setId(Integer.parseInt(categoryValue));
 
         Product product = new Product();
         if (isAdd) {
@@ -151,7 +156,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         product.setName(requestMap.get("name"));
         product.setDescription(requestMap.get("description"));
-        product.setPrice(Integer.parseInt(requestMap.get("price")));
+        product.setPrice(Integer.parseInt(priceValue));
         return product;
     }
 
